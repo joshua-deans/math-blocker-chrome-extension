@@ -20,42 +20,54 @@ class ManageSites extends React.Component {
     addWebsite(event){
         event.preventDefault();
         let newSite = this.state.newSiteInput;
-        let appendedSiteList = this.state.siteList
-        appendedSiteList.push(newSite);
-        chrome.storage.sync.set({siteList: appendedSiteList}, () => {
-            this.setState({siteList: appendedSiteList, newSiteInput: ''});
-            document.querySelector('#newSiteInput').value = "";  
+        let appendedSiteList = this.state.siteList;
+        if (newSite.includes(".") && !appendedSiteList.includes(newSite)){
+            appendedSiteList.push(newSite);
+            chrome.storage.sync.set({siteList: appendedSiteList}, () => {
+                this.setState({siteList: appendedSiteList, newSiteInput: ''});
+                document.querySelector('#newSiteInput').value = "";
+            });
         }
-        )};
+    };
+
+    deleteWebsite(site) {
+        let appendedSiteList = this.state.siteList;
+        if (appendedSiteList.includes(site)) {
+            appendedSiteList.splice(appendedSiteList.indexOf(site), 1);
+            chrome.storage.sync.set({siteList: appendedSiteList}, () => {
+                this.setState({siteList: appendedSiteList});
+            });
+        }
+    }
 
     render() {
         return (
-            <div className='py-2 px-4'>
-                {this.state.editMode ?
-                    <button type="submit" class="btn btn-danger mb-2"
-                        onClick={(event) => this.setState({ editMode: false })}>Stop Editting</button> :
-                    <button type="submit" class="btn btn-success mb-2"
-                        onClick={(event) => this.setState({ editMode: true })}>Edit</button>
-                }
+            <div className='py-2 container'>
                 <div>
-                <ul class="list-group px-4 py-2">
-                    {this.state.editMode ?
-                        <li class="list-group-item py-1">
-                        <form onSubmit={this.addWebsite}>
-                            <div className="form-group mb-0">
-                                <input type="text" className="form-control border-0 text-center" id="newSiteInput" 
-                                placeholder="Add new site here" pattern="[a-zA-Z0-9\-\_]+\.[a-zA-Z0-9\.]+"
-                                onChange={(e) => this.setState({newSiteInput: e.target.value})} required />
-                            </div>
-                        </form>
+                    <ul className="list-group px-4 py-2">
+                        <li className="list-group-item py-1">
+                            <form onSubmit={this.addWebsite}>
+                                <div className="form-group mb-0">
+                                    <input type="text" className="form-control border-0 text-center" id="newSiteInput"
+                                           placeholder="Add new site here"
+                                           onChange={(e) => this.setState({newSiteInput: e.target.value})} required/>
+                                </div>
+                            </form>
                         </li>
-                    : null}
-                    { this.state.siteList.map((site) => {
-                        return (<li class="list-group-item">
-                        <div>{site}</div>
-                        </li>)
-                    })}
-                </ul>
+                    </ul>
+                    <ul className="list-group px-4 py-2">
+                        { this.state.siteList.map((site) => {
+                            return (<li class="list-group-item">
+                                <div>
+                                    <span>{site}</span>
+                                    <button type="button" className="float-right btn btn-sm btn-danger" aria-label="Close"
+                                            onClick={(event) =>{event.preventDefault(); this.deleteWebsite(site);}}>
+                                        <span className="fas fa-trash-alt"/>
+                                    </button>
+                                </div>
+                            </li>)
+                        })}
+                    </ul>
                 </div>
             </div>
         )

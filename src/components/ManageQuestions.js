@@ -19,7 +19,7 @@ class ManageQuestions extends React.Component {
             }
         });
 
-        chrome.storage.sync.get('numQuestions', (result) => {
+        chrome.storage.sync.get(['numQuestions'], (result) => {
             if (result.numQuestions){
                 this.setState({numQuestions: result.numQuestions});
             } else {
@@ -48,7 +48,7 @@ class ManageQuestions extends React.Component {
     
     render() {
       return (
-        <form className='p-4' onSubmit={event => event.preventDefault()}>
+        <form className='my-4 py-4 container card' onSubmit={event => event.preventDefault()}>
             <div className="form-group row p-2">
                 <label for="numQuestions" className="col-5 col-form-label">Number of questions</label>
                 <div class="col-7">
@@ -58,7 +58,7 @@ class ManageQuestions extends React.Component {
             </div>
 
             <div className="form-group row p-2">
-                <label for="questionDifficulty" className="col-5 col-form-label">Question Difficulty</label>
+                <label for="questionDifficulty" className="col-5 col-form-label">Question Difficulty: {this.state.questionDifficulty}</label>
                 <div class="col-7 my-auto">
                     <input type="range" className="custom-range" min="1" max="5"  class="form-control-range" id="questionDifficulty" value={this.state.questionDifficulty} 
                     onChange={this.updateQuestionDifficulty}/>
