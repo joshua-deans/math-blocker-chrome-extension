@@ -6,18 +6,16 @@ let questionDifficulty = 1;
 // eslint-disable-next-line no-undef
 chrome.storage.sync.get(['siteList', 'questionDifficulty', 'numQuestions'], (result) => {
     if (result){
-        console.log(result);
         if (result.numQuestions) {
-            numQuestions = result.numQuestions;
+            numQuestions = parseInt(result.numQuestions, 10);
         }
         if (result.questionDifficulty){
-            questionDifficulty = result.questionDifficulty;
+            questionDifficulty = parseInt(result.questionDifficulty, 10);
         }
         result.siteList.forEach((site) => {
             if (currentUrl.indexOf(site) !== -1){
-                while (currQuestion <= numQuestions){
+                while (currQuestion < numQuestions){
                     let question = generateQuestion(questionDifficulty);
-                    console.log(question);
                     let answer = prompt(question.text + " (" + currQuestion + "/" + questionDifficulty + ")");
                     if (answer === question.answer){
                         currQuestion++;
@@ -61,13 +59,7 @@ function generateQuestion(questionDifficulty){
         c = Math.floor(Math.random() * 500 + 1);
         result.text = "(" + a + " * " + b + ") + " + c;
         result.answer = (a * b) + c;
-    } else if (questionDifficulty === 6){
-        a = Math.floor(Math.random() * 200 + 1);
-        b = Math.floor(Math.random() * 100 + 1);
-        c = Math.floor(Math.random() * 5000 + 1);
-        result.text = "(" + a + " * " + b + ") + " + c;
-        result.answer = (a * b) + c;
-    }
+    } 
     result.answer = result.answer.toString();
     return result;
 }
