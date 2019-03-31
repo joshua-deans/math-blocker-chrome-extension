@@ -1,7 +1,9 @@
-let currentUrl = window.location.href;
+const currentUrl = window.location.href;
 let numQuestions = 1;
 let currQuestion = 1;
 let questionDifficulty = 1;
+let siteListUrl;
+let questionObj;
 
 // eslint-disable-next-line no-undef
 chrome.storage.sync.get(['siteList', 'questionDifficulty', 'numQuestions'], (result) => {
@@ -12,19 +14,63 @@ chrome.storage.sync.get(['siteList', 'questionDifficulty', 'numQuestions'], (res
         if (result.questionDifficulty){
             questionDifficulty = parseInt(result.questionDifficulty, 10);
         }
-        result.siteList.forEach((site) => {
-            if (currentUrl.indexOf(site) !== -1){
-                while (currQuestion < numQuestions){
-                    let question = generateQuestion(questionDifficulty);
-                    let answer = prompt(question.text + " (" + currQuestion + "/" + questionDifficulty + ")");
-                    if (answer === question.answer){
-                        currQuestion++;
-                    }
-                }
+        for (let i = 0; i < result.siteList.length; i++){
+            if (currentUrl.indexOf(result.siteList[i]) !== -1){
+                siteListUrl = result.siteList[i];
+                showQuestionPopup();
+                document.body.classList.add("math-stop-scrolling");
+                break;
             }
-        });
+        };
     }
 });
+
+function showQuestionPopup(){
+    fetch(chrome.extension.getURL('/modal.html'))
+    .then(response => response.text())
+    .then(data => {
+        document.body.innerHTML += data;
+        startMathQuestions();
+    })
+    .catch(err => {
+        console.log(err);
+    });
+}
+
+function startMathQuestions(){
+    document.querySelector('#math-popup-form').addEventListener("submit", onSubmit);
+    populateMathQuestion();
+}
+
+function populateMathQuestion(){
+    questionObj = generateQuestion(questionDifficulty);
+    document.querySelector('#math-popup-title').innerText = "You have been blocked from " + siteListUrl;
+    document.querySelector('#math-popup-question').innerText = questionObj.text;
+    document.querySelector('#math-popup-question').innerText += " (" + currQuestion + "/" + numQuestions + ")"
+}
+
+function onSubmit(event){
+    event.preventDefault();
+    event.stopPropagation()
+    let inputElement = document.querySelector('#math-popup-input');
+    console.log(inputElement.value);
+    console.log(questionObj.answer);
+    console.log(questionObj.answer === inputElement.value);
+    if(inputElement.value === questionObj.answer){
+        currQuestion++;
+        if (currQuestion > numQuestions){
+            questionsFinished();
+        } else {
+            populateMathQuestion();
+        }
+    }
+    inputElement.value = "";
+}
+
+function questionsFinished(){
+    document.body.classList.remove("math-stop-scrolling");
+    document.body.removeChild(document.querySelector('#math-popup-container').parentNode);
+}
 
 function generateQuestion(questionDifficulty){
     let result = {};
