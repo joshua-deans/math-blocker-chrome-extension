@@ -1,11 +1,12 @@
 /* global chrome */
 import React, { Component } from 'react';
+import moment from 'moment';
 
 class ManageSites extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { siteList: [], editMode: false, newSiteInput: '' };
+    this.state = { siteList: [], newSiteInput: '' };
     this.addWebsite = this.addWebsite.bind(this);
   }
 
@@ -14,14 +15,14 @@ class ManageSites extends React.Component {
       if (result.siteList) {
         this.setState({ siteList: result.siteList });
       }
-      console.log(this.state.siteList);
+      console.log(result.siteList);
     })
   }
 
 
   addWebsite(event) {
     event.preventDefault();
-    let newSite = {url: this.state.newSiteInput, nextQuestion: -1};
+    let newSite = {url: this.state.newSiteInput, validUntil: moment().valueOf()};
     let appendedSiteList = this.state.siteList;
     if (newSite.url.includes(".") && !appendedSiteList.some( site => {return (site.url === newSite.url);})) {
       appendedSiteList.push(newSite);

@@ -20,7 +20,7 @@
         "modal.css"
       ],
       "js": [
-        "modal.js"
+        "moment.min.js", "modal.js"
       ]
     }
   ],
