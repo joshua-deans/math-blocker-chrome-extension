@@ -48,23 +48,23 @@ class ManageQuestions extends React.Component {
     
     render() {
       return (
-        <form className='my-4 py-4 container card' onSubmit={event => event.preventDefault()}>
-            <div className="form-group row p-2">
-                <label for="numQuestions" className="col-5 col-form-label">Number of questions</label>
-                <div class="col-7">
-                    <input type="number" min="1" max="10" className="form-control" id="numQuestions" placeholder="" value={this.state.numQuestions}
-                    onChange={this.updateNumQuestions} />
-                </div>
-            </div>
+          <form className='my-4 py-4 container card' style={{ maxWidth: '700px' }} onSubmit={event => event.preventDefault()}>
+              <div className="form-group row p-2">
+                  <label for="numQuestions" className="col-5 col-form-label">Number of questions</label>
+                  <div class="col-7">
+                      <input type="number" min="1" max="10" className="form-control" id="numQuestions" placeholder="" value={this.state.numQuestions}
+                          onChange={this.updateNumQuestions} />
+                  </div>
+              </div>
 
-            <div className="form-group row p-2">
-                <label for="questionDifficulty" className="col-5 col-form-label">Question Difficulty: {this.state.questionDifficulty}</label>
-                <div class="col-7 my-auto">
-                    <input type="range" className="custom-range" min="1" max="5"  class="form-control-range" id="questionDifficulty" value={this.state.questionDifficulty} 
-                    onChange={this.updateQuestionDifficulty}/>
-                </div>
-            </div>
-        </form>
+              <div className="form-group row p-2">
+                  <label for="questionDifficulty" className="col-5 col-form-label">Question Difficulty: {this.state.questionDifficulty}</label>
+                  <div class="col-7 my-auto">
+                      <input type="range" className="custom-range" min="1" max="5" class="form-control-range" id="questionDifficulty" value={this.state.questionDifficulty}
+                          onChange={this.updateQuestionDifficulty} />
+                  </div>
+              </div>
+          </form>
       );
     }
   }

@@ -15,8 +15,8 @@ chrome.storage.sync.get(['siteList', 'questionDifficulty', 'numQuestions'], (res
             questionDifficulty = parseInt(result.questionDifficulty, 10);
         }
         for (let i = 0; i < result.siteList.length; i++){
-            if (currentUrl.indexOf(result.siteList[i]) !== -1){
-                siteListUrl = result.siteList[i];
+            if (currentUrl.indexOf(result.siteList[i].url) !== -1){
+                siteListUrl = result.siteList[i].url;
                 showQuestionPopup();
                 document.body.classList.add("math-stop-scrolling");
                 break;
