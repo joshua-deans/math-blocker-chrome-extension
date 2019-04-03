@@ -19,14 +19,10 @@ chrome.storage.sync.get(['siteList', 'questionDifficulty', 'numQuestions', 'ques
         if (result.questionDelay){
             questionDelay = parseInt(result.questionDelay, 10);
         }
-        console.log(questionDelay);
         for (let i = 0; i < result.siteList.length; i++){
             siteList = result.siteList;
             if (currentUrl.indexOf(result.siteList[i].url) !== -1 && 
             moment().isAfter(moment(result.siteList[i]["validUntil"]))){
-                console.log(moment(result.siteList[i]["validUntil"]));
-                console.log(moment());
-                console.log(moment().isAfter(moment(result.siteList[i]["validUntil"])));
                 siteObj = result.siteList[i];
                 showQuestionPopup();
                 document.body.classList.add("math-stop-scrolling");

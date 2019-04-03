@@ -31,7 +31,7 @@ class OtherSettings extends React.Component {
     return (
       <form className='my-4 py-4 container card' style={{ maxWidth: '700px' }} onSubmit={event => event.preventDefault()}>
         <div className="form-group row p-2">
-          <label for="questionDelay" className="col-6 col-form-label">How long between sets of questions</label>
+          <label for="questionDelay" className="col-6 col-form-label">Time between question popups</label>
           <div class="col-6">
             <select class="form-control" name="questionDelay" id="questionDelay" onChange={this.updateQuestionDelay}>
               <option value="2">2 minutes</option>

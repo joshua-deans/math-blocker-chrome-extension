@@ -15,7 +15,6 @@ class ManageSites extends React.Component {
       if (result.siteList) {
         this.setState({ siteList: result.siteList });
       }
-      console.log(result.siteList);
     })
   }
 
