@@ -23,7 +23,6 @@ class App extends Component {
   render() {
     const currentView = this.state.currentView;
     let content;
-    console.log(this.state);
     if (currentView === "manageSchedule"){
       content = <ManageSchedule />
     } else if (currentView === "manageQuestions"){
@@ -60,9 +59,9 @@ class App extends Component {
           <li class="nav-item">
             <button class="btn btn-link nav-link" value='manageQuestions' id='manageQuestions' onClick={this.handleViewChange}>Manage Questions</button>
           </li>
-          <li class="nav-item">
+          {/* <li class="nav-item">
             <button class="btn btn-link nav-link" value='otherSettings' id='otherSettings' onClick={this.handleViewChange}>Other Settings</button>
-          </li>
+          </li> */}
         </ul>
       </div>
     </nav>;
