@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import ManageSites from '../src/components/ManageSites';
+import ManageSites from './components/ManageSites';
 import './App.css';
 import ManageQuestions from './components/ManageQuestions';
-import ManageSchedule from '../src/components/ManageSchedule';
+import ManageSchedule from './components/ManageSchedule';
+import OtherSettings from './components/OtherSettings';
 
 class App extends Component {  
   constructor(props){
@@ -29,6 +30,8 @@ class App extends Component {
       content = <ManageQuestions />
     } else if (currentView === "manageSites"){
       content = <ManageSites />
+    } else if (currentView === "otherSettings"){
+      content = <OtherSettings />
     }
     return (
       <div className="App">
@@ -56,6 +59,9 @@ class App extends Component {
           </li>
           <li class="nav-item">
             <button class="btn btn-link nav-link" value='manageQuestions' id='manageQuestions' onClick={this.handleViewChange}>Manage Questions</button>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-link nav-link" value='otherSettings' id='otherSettings' onClick={this.handleViewChange}>Other Settings</button>
           </li>
         </ul>
       </div>
