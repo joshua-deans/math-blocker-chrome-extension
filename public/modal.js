@@ -1,4 +1,4 @@
-const currentUrl = window.location.href;
+const currentUrl = window.location.hostname;
 let numQuestions = 1;
 let currQuestion = 1;
 let questionDifficulty = 1;
@@ -21,7 +21,7 @@ chrome.storage.sync.get(['siteList', 'questionDifficulty', 'numQuestions', 'ques
         }
         for (let i = 0; i < result.siteList.length; i++){
             siteList = result.siteList;
-            if (currentUrl.indexOf(result.siteList[i].url) !== -1 && 
+            if (siteMatches(result.siteList[i].url) && 
             moment().isAfter(moment(result.siteList[i]["validUntil"]))){
                 siteObj = result.siteList[i];
                 showQuestionPopup();
@@ -31,6 +31,15 @@ chrome.storage.sync.get(['siteList', 'questionDifficulty', 'numQuestions', 'ques
         };
     }
 });
+
+function siteMatches(site){
+    let siteArr = site.split(".");
+    let currentUrlArr = currentUrl.split(".");
+    console.log(siteArr);
+    console.log(currentUrlArr);
+    return (siteArr[siteArr.length - 1] === currentUrlArr[currentUrlArr.length - 1]) &&
+    (siteArr[siteArr.length - 2] === currentUrlArr[currentUrlArr.length - 2]);
+}
 
 function showQuestionPopup(){
     fetch(chrome.extension.getURL('/modal.html'))

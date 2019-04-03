@@ -24,8 +24,7 @@ class OtherSettings extends React.Component {
     let delayValue = document.querySelector('#questionDelay').value;
     chrome.storage.sync.set({questionDelay: delayValue}, () => {
       this.setState({questionDelay: delayValue})
-  })
-  }
+  })};
 
   render() {
     return (
