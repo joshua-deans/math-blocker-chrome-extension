@@ -18,6 +18,12 @@ body {
   cursor: default;
 }
 
+.list-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 #bodyContent {
   flex-grow: 1;
   overflow-y: auto;

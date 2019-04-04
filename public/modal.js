@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const currentUrl = window.location.hostname;
 let numQuestions = 1;
 let currQuestion = 1;
@@ -7,7 +8,6 @@ let siteList;
 let siteObj;
 let questionObj;
 
-// eslint-disable-next-line no-undef
 chrome.storage.sync.get(['siteList', 'questionDifficulty', 'numQuestions', 'questionDelay'], (result) => {
     if (result && result.siteList){
         if (result.numQuestions) {
@@ -60,9 +60,9 @@ function startMathQuestions(){
 
 function populateMathQuestion(){
     questionObj = generateQuestion(questionDifficulty);
-    document.querySelector('#math-popup-title').innerText = "You have been blocked from " + siteObj.url;
+    document.querySelector('#math-popup-site').innerText = siteObj.url;
     document.querySelector('#math-popup-question').innerText = questionObj.text;
-    document.querySelector('#math-popup-question').innerText += " (" + currQuestion + "/" + numQuestions + ")"
+    document.querySelector('#math-popup-progress').style.width = "calc(100% * " + currQuestion + " / " + numQuestions + ")"
 }
 
 function onSubmit(event){

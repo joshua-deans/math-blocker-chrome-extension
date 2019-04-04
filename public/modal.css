@@ -5,7 +5,7 @@
     width: 100vw;
     z-index: 2147483646;
     background-color: black;
-    opacity: .85;
+    opacity: .92;
 }
 
 #math-popup-container {
@@ -19,14 +19,9 @@
 #math-popup {
     background-color: white;
     color: black;
-    width: 65vw;
     border: 1px solid #ccc;
-    min-width: 500px;
-    max-width: 900px;
-    min-height: 250px;
-    height: 50vh;
+    width: fit-content;
     margin: 0 auto;
-    border-radius: 4px;
     top: 50%;
     transform: translateY(-50%);
     position: relative;
@@ -36,7 +31,18 @@
 #math-popup-title {
     padding: 16px;
     border-bottom: 1px solid #ccc;
-    font-size: 24px;
+    font-size: 20px;
+    text-align: center;
+}
+
+#math-popup-progress {
+    height: 100%;
+    background-color: rgb(0, 123, 255);
+}
+
+#math-popup-progress-bar {
+    height: 5px;
+    border-bottom: 1px solid #ccc;
 }
 
 #math-popup-question {
@@ -53,7 +59,6 @@
 
 #math-popup-input {
     font-size: 16px;
-    border-radius: 4px;
     border: 1px solid #ccc;
     padding: 6px 8px;
     margin-bottom: 16px;

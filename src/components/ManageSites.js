@@ -6,6 +6,7 @@ class ManageSites extends React.Component {
   constructor(props) {
     super(props);
 
+  
     this.state = { siteList: [], newSiteInput: '' };
     this.addWebsite = this.addWebsite.bind(this);
   }
@@ -57,13 +58,22 @@ class ManageSites extends React.Component {
           </ul>
           <ul className="list-group px-4 py-2">
             {this.state.siteList.map((site) => {
-              return (<li class="list-group-item">
-                <div>
+              return (
+              <li class="list-group-item">
+                <div class="list-flex">
+                  <div class="badge badge-danger site-status hint--left hint--error text-white" aria-label="Blocked">
+                    <i class="fas fa-lock"></i>
+                  </div>
                   <span>{site.url}</span>
-                  <button type="button" className="float-right btn btn-sm btn-danger" aria-label="Close"
-                    onClick={(event) => { event.preventDefault(); this.deleteWebsite(site); }}>
-                    <span className="fas fa-trash-alt" />
-                  </button>
+                  <div class="dropdown">
+                    <button type="button" className="float-right btn btn-sm btn-link text-body"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="fas fa-ellipsis-v"></span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <button onClick={(event) => { event.preventDefault(); this.deleteWebsite(site); }} class="dropdown-item" href="#">Delete</button>
+                    </div>
+                  </div>
                 </div>
               </li>)
             })}

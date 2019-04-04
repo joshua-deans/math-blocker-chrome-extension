@@ -3,10 +3,13 @@
 </div>
 <div id="math-popup-container">
     <div id="math-popup">
-        <div id="math-popup-title"></div>
+        <div id="math-popup-title">You have been blocked from: <strong id="math-popup-site"></strong></div>
+        <div id="math-popup-progress-bar">
+            <div id="math-popup-progress"></div>
+        </div>
         <form id="math-popup-form">
             <div id="math-popup-question"></div>
-            <input type="number" name="question-answer" id="math-popup-input" required/><br>
+            <input type="number" name="question-answer" id="math-popup-input" min="0" required/><br>
             <input type="submit" id="math-popup-submit" />
         </form>
     </div>
