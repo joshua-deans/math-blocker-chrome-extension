@@ -19,7 +19,6 @@
 #math-popup {
     background-color: white;
     color: black;
-    border: 1px solid #ccc;
     width: fit-content;
     margin: 0 auto;
     top: 50%;
@@ -30,25 +29,48 @@
 
 #math-popup-title {
     padding: 16px;
-    border-bottom: 1px solid #ccc;
     font-size: 20px;
     text-align: center;
+    background-color: #00838f;
+    margin-bottom: 24px;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.4);
+    color: white;
 }
 
-#math-popup-progress {
+.math-popup-progress {
     height: 100%;
-    background-color: rgb(0, 123, 255);
+    box-sizing: border-box;
+    margin: 0 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-width: 70px;
+}
+
+.math-question-current {
+  animation: color-loop .7s ease-in-out 0s infinite alternate;
+}
+
+@keyframes color-loop {
+  from {background-color: white;}
+  to {background-color: #f9a825;}
+}
+
+.math-question-complete {
+  background-color: #f9a825;
 }
 
 #math-popup-progress-bar {
-    height: 5px;
-    border-bottom: 1px solid #ccc;
+    height: 10px;
+    width: 225px;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
 }
 
 #math-popup-question {
     text-align: center;
     margin-bottom: 16px;
-    margin-top: 8px;
+    margin-top: 0px;
 }
 
 #math-popup-form {
@@ -68,8 +90,8 @@
 }
 
 #math-popup-submit {
-    background-color: #007bff;
-    border: 1px solid #007bff;
+    background-color: #f9a825;
+    border: 1px solid #f9a825;
     color: white;
     border-radius: 4px;
     font-size: 16px;
@@ -77,8 +99,8 @@
 }
 
 #math-popup-submit:hover {
-    background-color: #0062cc;
-    border: 1px solid #005cbf;
+    background-color: #c17900;
+    border: 1px solid #c17900;
     cursor: pointer;
 }
 
