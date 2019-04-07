@@ -35,8 +35,6 @@ chrome.storage.sync.get(['siteList', 'questionDifficulty', 'numQuestions', 'ques
 function siteMatches(site){
     let siteArr = site.split(".");
     let currentUrlArr = currentUrl.split(".");
-    console.log(siteArr);
-    console.log(currentUrlArr);
     return (siteArr[siteArr.length - 1] === currentUrlArr[currentUrlArr.length - 1]) &&
     (siteArr[siteArr.length - 2] === currentUrlArr[currentUrlArr.length - 2]);
 }
@@ -55,14 +53,19 @@ function showQuestionPopup(){
 
 function startMathQuestions(){
     document.querySelector('#math-popup-form').addEventListener("submit", onSubmit);
+    document.querySelector('#math-popup-site').innerText = siteObj.url;
+    let progressBar = document.querySelector('#math-popup-progress-bar');
+    for (let i = 0; i < numQuestions; i++) {
+        progressBar.innerHTML += '<div class="math-popup-progress"></div>';
+    }
+    document.querySelectorAll('.math-popup-progress').forEach(el => el.style.width = "calc(100% * " + currQuestion + " / " + numQuestions + ")")
     populateMathQuestion();
 }
 
 function populateMathQuestion(){
     questionObj = generateQuestion(questionDifficulty);
-    document.querySelector('#math-popup-site').innerText = siteObj.url;
     document.querySelector('#math-popup-question').innerText = questionObj.text;
-    document.querySelector('#math-popup-progress').style.width = "calc(100% * " + currQuestion + " / " + numQuestions + ")"
+    document.querySelector('#math-popup-progress-bar').children[currQuestion - 1].classList.add('math-question-current');
 }
 
 function onSubmit(event){
@@ -70,6 +73,9 @@ function onSubmit(event){
     event.stopPropagation()
     let inputElement = document.querySelector('#math-popup-input');
     if(inputElement.value === questionObj.answer){
+        let progressBar = document.querySelector('#math-popup-progress-bar');
+        progressBar.children[currQuestion - 1].classList.remove('math-question-current');
+        progressBar.children[currQuestion - 1].classList.add('math-question-complete');
         currQuestion++;
         if (currQuestion > numQuestions){
             questionsFinished();
