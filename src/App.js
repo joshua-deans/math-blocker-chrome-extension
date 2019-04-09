@@ -29,14 +29,17 @@ class App extends Component {
       content = <ManageQuestions />
     } else if (currentView === "manageSites"){
       content = <ManageSites />
-    } else if (currentView === "otherSettings"){
-      content = <OtherSettings />
+    } else if (currentView === "manageSchedule"){
+      content = <ManageSchedule />
     }
     return (
       <div className="App">
         { this.setUpNavBar() }
         <div id="bodyContent" className="bg-light">
         { content }
+        </div>
+        <div className="bg-dark text-white">
+        <div className="my-2 small text-white">Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
         </div>
       </div>
     );
@@ -50,18 +53,15 @@ class App extends Component {
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          {/* <li class="nav-item">
-            <button class="btn btn-link nav-link active" value='manageSchedule' id='manageSchedule' onClick={this.handleViewChange}>Manage Schedule</button>
-          </li> */}
           <li class="nav-item">
             <button class="btn btn-link nav-link active" value='manageSites' id='manageSites' onClick={this.handleViewChange}>Manage Sites</button>
           </li>
           <li class="nav-item">
             <button class="btn btn-link nav-link" value='manageQuestions' id='manageQuestions' onClick={this.handleViewChange}>Manage Questions</button>
           </li>
-          {/* <li class="nav-item">
-            <button class="btn btn-link nav-link" value='otherSettings' id='otherSettings' onClick={this.handleViewChange}>Other Settings</button>
-          </li> */}
+          <li class="nav-item">
+            <button class="btn btn-link nav-link" value='manageSchedule' id='manageSchedule' onClick={this.handleViewChange}>Manage Schedule</button>
+          </li>
         </ul>
       </div>
     </nav>;
