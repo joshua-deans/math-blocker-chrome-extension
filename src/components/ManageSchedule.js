@@ -1,6 +1,7 @@
 /* global chrome */
 import React, { Component } from 'react';
 import Schedule from './Schedule';
+import noUiSlider from 'nouislider';
 
 class ManageSchedule extends React.Component {
   constructor(props) {
@@ -19,7 +20,6 @@ class ManageSchedule extends React.Component {
   }
 
   changeScheduleStatus(event) {
-    console.log(event.target.id);
     let scheduleStatus;
     if (event.target.id === 'schedulingOn'){
       scheduleStatus = true;
@@ -44,8 +44,8 @@ class ManageSchedule extends React.Component {
 
   render() {
     return (
-      <form className='my-4 py-3 px-2 container card' style={{ maxWidth: '700px' }} onSubmit={event => event.preventDefault()}>
-        <div className="form-group row p-2 mb-1">
+      <form className='my-4 py-3 px-2 container card' style={{ maxWidth: '775px' }} onSubmit={event => event.preventDefault()}>
+        <div className="row p-2 mb-1">
           <label for="scheduleStatus" className="col-6 col-form-label text-right">Schedule Type</label>
           <div class="col-3 py-2 text-left">
             <div class="form-check form-check-inline">
