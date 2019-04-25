@@ -29,8 +29,8 @@ class App extends Component {
       content = <ManageQuestions />
     } else if (currentView === "manageSites"){
       content = <ManageSites />
-    } else if (currentView === "otherSettings"){
-      content = <OtherSettings />
+    } else if (currentView === "manageSchedule"){
+      content = <ManageSchedule />
     }
     return (
       <div className="App">
@@ -43,28 +43,26 @@ class App extends Component {
   }
 
   setUpNavBar() {
-    return <nav id="mainNav" class="navbar navbar-expand navbar-dark bg-dark">
+    return (
+    <nav id="mainNav" class="navbar navbar-expand navbar-dark bg-dark">
       <button class="btn btn-link navbar-brand inactiveLink p-0">Navbar</button>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          {/* <li class="nav-item">
-            <button class="btn btn-link nav-link active" value='manageSchedule' id='manageSchedule' onClick={this.handleViewChange}>Manage Schedule</button>
-          </li> */}
           <li class="nav-item">
             <button class="btn btn-link nav-link active" value='manageSites' id='manageSites' onClick={this.handleViewChange}>Manage Sites</button>
           </li>
           <li class="nav-item">
             <button class="btn btn-link nav-link" value='manageQuestions' id='manageQuestions' onClick={this.handleViewChange}>Manage Questions</button>
           </li>
-          {/* <li class="nav-item">
-            <button class="btn btn-link nav-link" value='otherSettings' id='otherSettings' onClick={this.handleViewChange}>Other Settings</button>
-          </li> */}
+          <li class="nav-item">
+            <button class="btn btn-link nav-link" value='manageSchedule' id='manageSchedule' onClick={this.handleViewChange}>Manage Schedule</button>
+          </li>
         </ul>
       </div>
-    </nav>;
+    </nav>);
   }
 }
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 chrome.browserAction.onClicked.addListener(function (tab) {
     if (chrome.runtime.openOptionsPage) {
         chrome.runtime.openOptionsPage();

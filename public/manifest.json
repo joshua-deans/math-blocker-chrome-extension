@@ -27,6 +27,11 @@
   "web_accessible_resources": [
     "modal.html"
   ],
+  "icons": { 
+    "16": "./images/calculating16.png",
+    "48": "./images/calculating48.png",
+   "128": "./images/calculating128.png" 
+  },
   "options_page": "index.html",
   "content_security_policy": "script-src 'self' https://code.jquery.com https://cdnjs.cloudflare.com https://stackpath.bootstrapcdn.com 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU='; object-src 'self'",
   "permissions": [

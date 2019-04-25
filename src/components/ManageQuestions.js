@@ -1,5 +1,6 @@
 /* global chrome */
 import React, { Component } from 'react';
+import noUiSlider from 'nouislider';
 
 class ManageQuestions extends React.Component {
   constructor(props) {
@@ -64,7 +65,7 @@ class ManageQuestions extends React.Component {
 
   render() {
     return (
-      <form className='my-4 py-4 container card' style={{ maxWidth: '700px' }} onSubmit={event => event.preventDefault()}>
+      <form className='my-4 py-3 px-2 container card' style={{ maxWidth: '700px' }} onSubmit={event => event.preventDefault()}>
         <div className="form-group row p-2">
           <label for="numQuestions" className="col-5 col-form-label text-right">Number of questions</label>
           <div class="col-6">

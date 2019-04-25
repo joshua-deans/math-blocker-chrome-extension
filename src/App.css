@@ -1,16 +1,18 @@
-body {
-  height: 100vh;
+.noUi-handle {
+  border-radius: 100%;
+  width: 28px !important;
+  height: 28px !important;
 }
 
-#root {
-  height: 100%;
+.noUi-handle:after, .noUi-handle:before {
+  content: none;
 }
 
 .App {
   text-align: center;
   display:flex;
   flex-direction: column;
-  height: 100%;
+  height: 100vh;
 }
 
 .inactiveLink {
@@ -31,4 +33,5 @@ body {
 
 #mainNav {
   flex-shrink: 0;
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.4);
 }

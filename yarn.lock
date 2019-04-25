@@ -4374,11 +4374,6 @@ hex-color-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/hex-color-regex/-/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
 
-hint.css@^2.5.1:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/hint.css/-/hint.css-2.5.1.tgz#b0924714c6052a2a0256417162358a3dea140692"
-  integrity sha512-6ks/IZ6sz7l0ySHlMi9wy24uLiwF00fiHm6tZekfoA8NBD67F8OlYDpXnTcpfnoVvBaJtC0bIIwv5/GHWXLl/g==
-
 hmac-drbg@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -5540,10 +5535,10 @@ joi@^11.1.1:
     isemail "3.x.x"
     topo "2.x.x"
 
-jquery@^3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
-  integrity sha512-Ubldcmxp5np52/ENotGxlLe6aGMvmF4R8S6tZjsP6Knsaxd/xp3Zrh50cG93lR6nPXyUFwzN3ZSOQI0wRJNdGg==
+js-joda@^1.10.1:
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/js-joda/-/js-joda-1.10.1.tgz#41e2f0a646dd63f2bf75d74471743eaafc91a5f2"
+  integrity sha512-lDBKliZf2oLX4h1EjzkhBulpQRv51A9x2nhX1XnP1PD0LU7a30I7CKtAWZ//5c+Z6aWG8TO996vVr+4owE9vWA==
 
 js-levenshtein@^1.1.3:
   version "1.1.6"
@@ -6442,6 +6437,11 @@ normalize-url@^3.0.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
   integrity sha512-U+JJi7duF1o+u2pynbp2zXDW2/PADgC30f0GsHZtRh+HOcXHnw137TrNlyxxRvWW5fjKd3bcLHPxofWuCjaeZg==
+
+nouislider@^13.1.4:
+  version "13.1.4"
+  resolved "https://registry.yarnpkg.com/nouislider/-/nouislider-13.1.4.tgz#1927e8787b3f8876d7b942999e9968b234e8bc8f"
+  integrity sha512-XcGdAkjDNjaciL4rBdf6/0Yfj7cVCPD9lUjFfOJnUdku4XaJUFa3Im3w8NnCuJFZ3NraRATREjpqDfbQIRRU0w==
 
 npm-bundled@^1.0.1:
   version "1.0.6"
