@@ -11,7 +11,6 @@ let questionObj;
 chrome.storage.sync.get(['siteList', 'questionDifficulty', 'numQuestions', 'questionDelay', 'schedulingOn', 'schedulingData'], 
 (result) => {
     if (result && result.siteList){
-        console.log(result);
         if (result.numQuestions) {
             numQuestions = parseInt(result.numQuestions, 10);
         }
