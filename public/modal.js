@@ -8,8 +8,10 @@ let siteList;
 let siteObj;
 let questionObj;
 
-chrome.storage.sync.get(['siteList', 'questionDifficulty', 'numQuestions', 'questionDelay'], (result) => {
+chrome.storage.sync.get(['siteList', 'questionDifficulty', 'numQuestions', 'questionDelay', 'schedulingOn', 'schedulingData'], 
+(result) => {
     if (result && result.siteList){
+        console.log(result);
         if (result.numQuestions) {
             numQuestions = parseInt(result.numQuestions, 10);
         }
@@ -19,16 +21,20 @@ chrome.storage.sync.get(['siteList', 'questionDifficulty', 'numQuestions', 'ques
         if (result.questionDelay){
             questionDelay = parseInt(result.questionDelay, 10);
         }
-        for (let i = 0; i < result.siteList.length; i++){
-            siteList = result.siteList;
-            if (siteMatches(result.siteList[i].url) && 
-            moment().isAfter(moment(result.siteList[i]["validUntil"]))){
-                siteObj = result.siteList[i];
-                showQuestionPopup();
-                document.body.classList.add("math-stop-scrolling");
-                break;
-            }
-        };
+        if (result.schedulingOn && result.schedulingData[moment().weekday()].enabled &&
+            moment().isSameOrAfter(moment(result.schedulingData[moment().weekday()].startTime, "h:m A")) &&
+            moment().isBefore(moment(result.schedulingData[moment().weekday()].endTime, "h:m A"))){
+            for (let i = 0; i < result.siteList.length; i++){
+                siteList = result.siteList;
+                if (siteMatches(result.siteList[i].url) && 
+                moment().isAfter(moment(result.siteList[i]["validUntil"]))){
+                    siteObj = result.siteList[i];
+                    showQuestionPopup();
+                    document.body.classList.add("math-stop-scrolling");
+                    break;
+                }
+            };
+        }
     }
 });
 

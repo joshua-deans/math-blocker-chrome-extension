@@ -38,15 +38,13 @@ class App extends Component {
         <div id="bodyContent" className="bg-light">
         { content }
         </div>
-        <div className="bg-dark text-white">
-          <div className="my-2 small text-white">Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-        </div>
       </div>
     );
   }
 
   setUpNavBar() {
-    return <nav id="mainNav" class="navbar navbar-expand navbar-dark bg-dark">
+    return (
+    <nav id="mainNav" class="navbar navbar-expand navbar-dark bg-dark">
       <button class="btn btn-link navbar-brand inactiveLink p-0">Navbar</button>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -64,7 +62,7 @@ class App extends Component {
           </li>
         </ul>
       </div>
-    </nav>;
+    </nav>);
   }
 }
 

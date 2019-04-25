@@ -44,8 +44,8 @@ class ManageSchedule extends React.Component {
 
   render() {
     return (
-      <form className='my-4 py-3 px-2 container card' style={{ maxWidth: '775px' }} onSubmit={event => event.preventDefault()}>
-        <div className="row p-2 mb-1">
+      <form className='my-4 p-2 container card' style={{ maxWidth: '775px' }} onSubmit={event => event.preventDefault()}>
+        <div className="row p-2 mb-1 w-100 mx-auto">
           <label for="scheduleStatus" className="col-6 col-form-label text-right">Schedule Type</label>
           <div class="col-3 py-2 text-left">
             <div class="form-check form-check-inline">
@@ -58,7 +58,7 @@ class ManageSchedule extends React.Component {
             </div>
           </div>
         </div>
-        <div className="form-group row p-2">
+        <div className="form-group row w-100 mx-auto">
           {this.getScheduleContent()}
         </div>
       </form>
