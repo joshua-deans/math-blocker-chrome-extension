@@ -23,14 +23,15 @@ class Schedule extends Component {
     this.changeDayEnabled = this.changeDayEnabled.bind(this);
   }
 
+  componentWillMount(){
+    if (this.props.schedulingData !== undefined) {
+      this.setState({ days: this.props.schedulingData });
+    }
+  }
+
   componentDidMount() {
-    chrome.storage.sync.get(['schedulingData'], (result) => {
-      if (result.schedulingData) {
-        this.setState({ days: result.schedulingData });
-        var slider = document.querySelectorAll('.controlRange');
-        slider.forEach(this.setUpSlider);
-      }
-    })
+    let slider = document.querySelectorAll('.controlRange');
+    slider.forEach(this.setUpSlider);
   }
 
   setUpSlider = (slide, index) => {

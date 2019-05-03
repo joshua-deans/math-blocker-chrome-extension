@@ -13,11 +13,9 @@ class ManageSchedule extends Component {
   }
 
   componentWillMount() {
-    chrome.storage.sync.get(['schedulingOn'], (result) => {
-      if (result.schedulingOn) {
-        this.setState({ schedulingOn: result.schedulingOn });
-      }
-    })
+    if (this.props.schedulingOn !== undefined) {
+      this.setState({ schedulingOn: this.props.schedulingOn });
+    }
   }
 
   changeScheduleStatus(event) {
@@ -41,7 +39,7 @@ class ManageSchedule extends Component {
     if (!this.state.schedulingOn) {
       return (<div class="w-100 h6 text-muted">Scheduling is not enabled</div>);
     } else if (this.state.schedulingOn) {
-      return <Schedule schedulingOn={this.state.schedulingOn} />;
+      return <Schedule schedulingOn={this.state.schedulingOn} schedulingData={this.props.schedulingData} />;
     }
   }
 
@@ -69,11 +67,4 @@ class ManageSchedule extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    schedulingOn: state.schedulingOn,
-    schedulingData: state.schedulingData
-  }
-};
-
-export default connect(mapStateToProps)(ManageSchedule);
+export default connect()(ManageSchedule);

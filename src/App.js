@@ -11,7 +11,7 @@ class App extends Component {
   constructor(props){
     super(props);
 
-    this.state = {currentView: 'activeBlocks'};
+    this.state = {currentView: 'manageSites'};
     this.handleViewChange = this.handleViewChange.bind(this);
   }
 
@@ -33,15 +33,17 @@ class App extends Component {
   render() {
     const currentView = this.state.currentView;
     let content;
-    if (currentView === "activeBlocks"){
-      content = <Dashboard />
-    } else if (currentView === "manageQuestions"){
+    
+    if (currentView === "manageQuestions"){
       content = <ManageQuestions />
     } else if (currentView === "manageSites"){
       content = <ManageSites schedulingOn={this.props.schedulingOn} schedulingData={this.props.schedulingData} />
     } else if (currentView === "manageSchedule"){
-      content = <ManageSchedule />
+      content = <ManageSchedule schedulingOn={this.props.schedulingOn} schedulingData={this.props.schedulingData} />
     }
+    // else if (currentView === "dashboard"){
+    //   content = <Dashboard />
+    // } 
     return (
       <div className="App">
         { this.setUpNavBar() }
@@ -62,7 +64,7 @@ class App extends Component {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
           <li className="nav-item">
-            <button className="btn btn-link nav-link" value='manageSites' id='manageSites' onClick={this.handleViewChange}>Manage Sites</button>
+            <button className="btn btn-link nav-link active" value='manageSites' id='manageSites' onClick={this.handleViewChange}>Manage Sites</button>
           </li>
           <li className="nav-item">
             <button className="btn btn-link nav-link" value='manageQuestions' id='manageQuestions' onClick={this.handleViewChange}>Manage Questions</button>
