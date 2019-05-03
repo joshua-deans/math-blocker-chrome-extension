@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import noUiSlider from 'nouislider';
 import 'nouislider/distribute/nouislider.css';
-const LocalTime = require("js-joda").LocalTime;
+import { connect } from 'react-redux';
 
-class Schedule extends React.Component {
+class Schedule extends Component {
   constructor(props) {
     super(props);
 
@@ -17,20 +17,21 @@ class Schedule extends React.Component {
         { name: "Thursday", enabled: false, startTime: '12:00 AM', endTime: '11:59 PM', startTimeUnencoded: null, endTimeUnencoded: null },
         { name: "Friday", enabled: false, startTime: '12:00 AM', endTime: '11:59 PM', startTimeUnencoded: null, endTimeUnencoded: null },
         { name: "Saturday", enabled: false, startTime: '12:00 AM', endTime: '11:59 PM', startTimeUnencoded: null, endTimeUnencoded: null }
-        ]
+      ]
     };
 
     this.changeDayEnabled = this.changeDayEnabled.bind(this);
   }
 
+  componentWillMount(){
+    if (this.props.schedulingData !== undefined) {
+      this.setState({ days: this.props.schedulingData });
+    }
+  }
+
   componentDidMount() {
-    chrome.storage.sync.get(['schedulingData'], (result) => {
-      if (result.schedulingData) {
-        this.setState({ days: result.schedulingData });
-        var slider = document.querySelectorAll('.controlRange');
-        slider.forEach(this.setUpSlider);
-      }
-    })
+    let slider = document.querySelectorAll('.controlRange');
+    slider.forEach(this.setUpSlider);
   }
 
   setUpSlider = (slide, index) => {
@@ -73,6 +74,7 @@ class Schedule extends React.Component {
       changedState[index].endTimeUnencoded = unencoded[1];
       chrome.storage.sync.set({ schedulingData: changedState }, () => {
         this.setState({ days: changedState });
+        this.props.dispatch({type: 'SCHEDULE_UPDATE', data:{schedulingOn: this.props.schedulingOn, schedulingData: changedState }});
       })
     });
   }
@@ -105,6 +107,7 @@ class Schedule extends React.Component {
     updatedDays[index].enabled = !updatedDays[index].enabled;
     chrome.storage.sync.set({ schedulingData: updatedDays }, () => {
       this.setState({days: updatedDays});
+      this.props.dispatch({type: 'SCHEDULE_UPDATE', data:{schedulingOn: this.props.schedulingOn, schedulingData: updatedDays }});
     })
   }
 
@@ -115,7 +118,7 @@ class Schedule extends React.Component {
           {this.state.days.map((day, index) => {
             return (
               <div className="row list-group-item d-flex align-items-center pl-3 pr-0 mx-2 py-4 my-0">
-                <div className="form-group col-md-3 my-auto">
+                <div className="form-group col-md-3 my-auto text-md-left text-center">
                   <input className="form-check-input" type="checkbox" value="" id={day.name.toLowerCase() + "Check"}
                     checked={day.enabled} onChange={(event) => this.changeDayEnabled(day, index)}
                   />
@@ -123,15 +126,15 @@ class Schedule extends React.Component {
                     {day.name}
                   </label>
                 </div>
-                <div className="form-group col-sm-3 col-md-2 my-auto">
+                <div className="form-group col-3 col-md-2 my-auto">
                   <input type="text" readonly className="form-control-plaintext" value={day.startTime} />
                 </div>
-                <div className="col-sm-6 col-md-5">
+                <div className="col-6 col-md-5">
                   <div className="form-group my-auto">
                     <div type="range" className="controlRange" id={day.name.toLowerCase() + "ControlRange"} disabled={!day.enabled} />
                   </div>
                 </div>
-                <div className="form-group col-sm-3 col-md-2 my-auto">
+                <div className="form-group col-3 col-md-2 my-auto">
                   <input type="text" readonly className="form-control-plaintext" value={day.endTime} />
                 </div>
               </div>
@@ -144,4 +147,4 @@ class Schedule extends React.Component {
   }
 }
 
-export default Schedule;
+export default connect()(Schedule);

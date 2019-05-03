@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import noUiSlider from 'nouislider';
 
-class ManageQuestions extends React.Component {
+class ManageQuestions extends Component {
   constructor(props) {
     super(props);
 
