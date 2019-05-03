@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Schedule from './Schedule';
 import noUiSlider from 'nouislider';
 
-class ManageSchedule extends React.Component {
+class ManageSchedule extends Component {
   constructor(props) {
     super(props);
 
@@ -47,7 +47,7 @@ class ManageSchedule extends React.Component {
       <form className='my-4 p-2 container card' style={{ maxWidth: '775px' }} onSubmit={event => event.preventDefault()}>
         <div className="row p-2 mb-1 w-100 mx-auto">
           <label for="scheduleStatus" className="col-6 col-form-label text-right">Schedule Type</label>
-          <div class="col-3 py-2 text-left">
+          <div class="col-4 py-2 text-left">
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="schedulingStatus" id="schedulingOn" value="on" checked={this.state.schedulingOn} onChange={this.changeScheduleStatus} />
               <label class="form-check-label" for="SchedulingOn">On</label>

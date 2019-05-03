@@ -2,12 +2,12 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 
-class ManageSites extends React.Component {
+class ManageSites extends Component {
   constructor(props) {
     super(props);
 
 
-    this.state = { siteList: [], newSiteInput: '' };
+    this.state = { siteList: [], newSiteInput: '', schedulingOn: false};
     this.addWebsite = this.addWebsite.bind(this);
   }
 
@@ -15,6 +15,9 @@ class ManageSites extends React.Component {
     chrome.storage.sync.get(['siteList'], (result) => {
       if (result.siteList) {
         this.setState({ siteList: result.siteList });
+      }
+      if (result.schedulingOn) {
+        this.setState({schedulingOn: result.schedulingOn});
       }
     })
   }
@@ -34,15 +37,15 @@ class ManageSites extends React.Component {
   };
 
   getStatus(site) {
-    if (moment(site.validUntil).isAfter(moment())){
+    if (moment(site.validUntil).isAfter(moment())) {
       return (
-      <div class="badge badge-warning site-status hint--bottom-right hint--warning text-white" style={{padding: '8px'}} aria-label={"Temporarily Unblocked until: " + moment(site.validUntil).format("h:mm a")}>
-        <i class="fas fa-unlock"></i>&nbsp;&nbsp;{moment(site.validUntil).toNow(true)}
-      </div>)
+        <div className="col-2 badge badge-warning site-status hint--bottom-right hint--warning text-white" style={{ padding: '6px' }} aria-label={"Temporarily Unblocked until: " + moment(site.validUntil).format("h:mm a")}>
+          <i className="fas fa-unlock"></i>&nbsp;&nbsp;{moment(site.validUntil).toNow(true)}
+        </div>)
     } else {
-    return (
-      <div class="badge badge-danger site-status hint--bottom-right hint--error text-white" style={{padding: '8px'}} aria-label="Blocked">
-        <i class="fas fa-lock"></i>&nbsp;&nbsp;Blocked
+      return (
+        <div className="col-2 badge badge-danger site-status hint--bottom-right hint--error text-white" style={{ padding: '6px' }} aria-label="Blocked">
+          <i className="fas fa-lock"></i>&nbsp;&nbsp;Blocked
       </div>)
     }
   }
@@ -71,19 +74,31 @@ class ManageSites extends React.Component {
             </li>
           </ul>
           <ul className="list-group px-4 py-2">
+            <li className="list-group-item row mx-0">
+              <div className="dropdown col pr-0">
+                <button type="button" className="float-right btn btn-sm btn-link text-body"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span className="fas fa-ellipsis-v"></span>
+                </button>
+                <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                  <button onClick={(event) => { event.preventDefault(); }} className="dropdown-item" href="#">Block All</button>
+                </div>
+              </div>
+            </li>
             {this.state.siteList.map((site) => {
               return (
-                <li class="list-group-item">
-                  <div class="list-flex">
+                <li className="list-group-item row mx-0">
+                  <div className="list-flex">
                     {this.getStatus(site)}
-                  <span>{site.url}</span>
-                    <div class="dropdown">
+                    <span className="col-9">{site.url}</span>
+                    <div className="dropdown col-1 pr-0">
                       <button type="button" className="float-right btn btn-sm btn-link text-body"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="fas fa-ellipsis-v"></span>
+                        <span className="fas fa-ellipsis-v"></span>
                       </button>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <button onClick={(event) => { event.preventDefault(); this.deleteWebsite(site); }} class="dropdown-item" href="#">Delete</button>
+                      <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                        <button onClick={(event) => { event.preventDefault();}} className="dropdown-item">Block</button>
+                        <button onClick={(event) => { event.preventDefault(); this.deleteWebsite(site); }} className="dropdown-item">Delete</button>
                       </div>
                     </div>
                   </div>

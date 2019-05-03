@@ -2,9 +2,8 @@
 import React, { Component } from 'react';
 import noUiSlider from 'nouislider';
 import 'nouislider/distribute/nouislider.css';
-const LocalTime = require("js-joda").LocalTime;
 
-class Schedule extends React.Component {
+class Schedule extends Component {
   constructor(props) {
     super(props);
 
@@ -115,7 +114,7 @@ class Schedule extends React.Component {
           {this.state.days.map((day, index) => {
             return (
               <div className="row list-group-item d-flex align-items-center pl-3 pr-0 mx-2 py-4 my-0">
-                <div className="form-group col-md-3 my-auto">
+                <div className="form-group col-md-3 my-auto text-md-left text-center">
                   <input className="form-check-input" type="checkbox" value="" id={day.name.toLowerCase() + "Check"}
                     checked={day.enabled} onChange={(event) => this.changeDayEnabled(day, index)}
                   />
@@ -123,15 +122,15 @@ class Schedule extends React.Component {
                     {day.name}
                   </label>
                 </div>
-                <div className="form-group col-sm-3 col-md-2 my-auto">
+                <div className="form-group col-3 col-md-2 my-auto">
                   <input type="text" readonly className="form-control-plaintext" value={day.startTime} />
                 </div>
-                <div className="col-sm-6 col-md-5">
+                <div className="col-6 col-md-5">
                   <div className="form-group my-auto">
                     <div type="range" className="controlRange" id={day.name.toLowerCase() + "ControlRange"} disabled={!day.enabled} />
                   </div>
                 </div>
-                <div className="form-group col-sm-3 col-md-2 my-auto">
+                <div className="form-group col-3 col-md-2 my-auto">
                   <input type="text" readonly className="form-control-plaintext" value={day.endTime} />
                 </div>
               </div>
