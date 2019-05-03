@@ -1,9 +1,10 @@
+/* global chrome */
 import React, { Component } from 'react';
 import ManageSites from './components/ManageSites';
 import './App.css';
 import ManageQuestions from './components/ManageQuestions';
 import ManageSchedule from './components/ManageSchedule';
-import ActiveBlocks from './components/ActiveBlocks';
+import Dashboard from './components/Dashboard';
 import { connect } from 'react-redux';
 
 class App extends Component {  
@@ -12,6 +13,14 @@ class App extends Component {
 
     this.state = {currentView: 'activeBlocks'};
     this.handleViewChange = this.handleViewChange.bind(this);
+  }
+
+  componentWillMount(){
+    chrome.storage.sync.get(['schedulingOn', 'schedulingData'], (result) => {
+      if (result.schedulingOn !== undefined && result.schedulingData !== undefined) {
+        this.props.dispatch({type: 'SCHEDULE_UPDATE', data: {schedulingOn: result.schedulingOn, schedulingData: result.schedulingData} });
+      }
+    })
   }
 
   handleViewChange(event){
@@ -25,13 +34,11 @@ class App extends Component {
     const currentView = this.state.currentView;
     let content;
     if (currentView === "activeBlocks"){
-      content = <ActiveBlocks />
-    } else if (currentView === "manageSchedule"){
-      content = <ManageSchedule />
+      content = <Dashboard />
     } else if (currentView === "manageQuestions"){
       content = <ManageQuestions />
     } else if (currentView === "manageSites"){
-      content = <ManageSites />
+      content = <ManageSites schedulingOn={this.props.schedulingOn} schedulingData={this.props.schedulingData} />
     } else if (currentView === "manageSchedule"){
       content = <ManageSchedule />
     }
@@ -47,24 +54,21 @@ class App extends Component {
 
   setUpNavBar() {
     return (
-    <nav id="mainNav" class="navbar navbar-expand navbar-dark bg-dark">
-      <button class="btn btn-link navbar-brand inactiveLink p-0">Math Blocker</button>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+    <nav id="mainNav" className="navbar navbar-expand navbar-dark bg-dark">
+      <button className="btn btn-link navbar-brand p-0" value='dashboard' id='dashboard' onClick={this.handleViewChange}>Math Blocker</button>
+      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span className="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-            <button class="btn btn-link nav-link active" value='activeBlocks' id='activeBlocks' onClick={this.handleViewChange}>Active Blocks</button>
+      <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul className="navbar-nav mr-auto">
+          <li className="nav-item">
+            <button className="btn btn-link nav-link" value='manageSites' id='manageSites' onClick={this.handleViewChange}>Manage Sites</button>
           </li>
-          <li class="nav-item">
-            <button class="btn btn-link nav-link" value='manageSites' id='manageSites' onClick={this.handleViewChange}>Manage Sites</button>
+          <li className="nav-item">
+            <button className="btn btn-link nav-link" value='manageQuestions' id='manageQuestions' onClick={this.handleViewChange}>Manage Questions</button>
           </li>
-          <li class="nav-item">
-            <button class="btn btn-link nav-link" value='manageQuestions' id='manageQuestions' onClick={this.handleViewChange}>Manage Questions</button>
-          </li>
-          <li class="nav-item">
-            <button class="btn btn-link nav-link" value='manageSchedule' id='manageSchedule' onClick={this.handleViewChange}>Manage Schedule</button>
+          <li className="nav-item">
+            <button className="btn btn-link nav-link" value='manageSchedule' id='manageSchedule' onClick={this.handleViewChange}>Manage Schedule</button>
           </li>
         </ul>
       </div>
@@ -72,4 +76,11 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    schedulingOn: state.schedulingOn,
+    schedulingData: state.schedulingData
+  }
+};
+
+export default connect(mapStateToProps)(App);

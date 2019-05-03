@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import noUiSlider from 'nouislider';
 import 'nouislider/distribute/nouislider.css';
+import { connect } from 'react-redux';
 
 class Schedule extends Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class Schedule extends Component {
         { name: "Thursday", enabled: false, startTime: '12:00 AM', endTime: '11:59 PM', startTimeUnencoded: null, endTimeUnencoded: null },
         { name: "Friday", enabled: false, startTime: '12:00 AM', endTime: '11:59 PM', startTimeUnencoded: null, endTimeUnencoded: null },
         { name: "Saturday", enabled: false, startTime: '12:00 AM', endTime: '11:59 PM', startTimeUnencoded: null, endTimeUnencoded: null }
-        ]
+      ]
     };
 
     this.changeDayEnabled = this.changeDayEnabled.bind(this);
@@ -72,6 +73,7 @@ class Schedule extends Component {
       changedState[index].endTimeUnencoded = unencoded[1];
       chrome.storage.sync.set({ schedulingData: changedState }, () => {
         this.setState({ days: changedState });
+        this.props.dispatch({type: 'SCHEDULE_UPDATE', data:{schedulingOn: this.props.schedulingOn, schedulingData: changedState }});
       })
     });
   }
@@ -104,6 +106,7 @@ class Schedule extends Component {
     updatedDays[index].enabled = !updatedDays[index].enabled;
     chrome.storage.sync.set({ schedulingData: updatedDays }, () => {
       this.setState({days: updatedDays});
+      this.props.dispatch({type: 'SCHEDULE_UPDATE', data:{schedulingOn: this.props.schedulingOn, schedulingData: updatedDays }});
     })
   }
 
@@ -143,4 +146,4 @@ class Schedule extends Component {
   }
 }
 
-export default Schedule;
+export default connect()(Schedule);

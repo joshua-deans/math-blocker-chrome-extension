@@ -6,7 +6,6 @@ class ManageSites extends Component {
   constructor(props) {
     super(props);
 
-
     this.state = { siteList: [], newSiteInput: '', schedulingOn: false};
     this.addWebsite = this.addWebsite.bind(this);
   }
@@ -37,9 +36,15 @@ class ManageSites extends Component {
   };
 
   getStatus(site) {
+    if (!this.isScheduleBlockOn()){
+      return (
+        <div className="col-2 badge badge-secondary site-status text-white" style={{ padding: '6px' }}>
+          <i className="fas fa-unlock"></i>&nbsp;&nbsp;No block
+        </div>)
+    }
     if (moment(site.validUntil).isAfter(moment())) {
       return (
-        <div className="col-2 badge badge-warning site-status hint--bottom-right hint--warning text-white" style={{ padding: '6px' }} aria-label={"Temporarily Unblocked until: " + moment(site.validUntil).format("h:mm a")}>
+        <div className="col-2 badge badge-success site-status hint--bottom-right hint--success text-white" style={{ padding: '6px' }} aria-label={"Temporarily Unblocked until: " + moment(site.validUntil).format("h:mm a")}>
           <i className="fas fa-unlock"></i>&nbsp;&nbsp;{moment(site.validUntil).toNow(true)}
         </div>)
     } else {
@@ -56,6 +61,17 @@ class ManageSites extends Component {
     chrome.storage.sync.set({ siteList: appendedSiteList }, () => {
       this.setState({ siteList: appendedSiteList });
     });
+  }
+
+  isScheduleBlockOn(){
+    if (this.props.schedulingOn && this.props.schedulingData[moment().weekday()].enabled &&
+            moment().isSameOrAfter(moment(this.props.schedulingData[moment().weekday()].startTime, "h:m A")) &&
+            moment().isBefore(moment(this.props.schedulingData[moment().weekday()].endTime, "h:m A"))){
+              return true;
+            }
+    else {
+      return false;
+    }
   }
 
   render() {

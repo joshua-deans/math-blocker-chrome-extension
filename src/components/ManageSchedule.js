@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import Schedule from './Schedule';
 import noUiSlider from 'nouislider';
+import { connect } from 'react-redux';
 
 class ManageSchedule extends Component {
   constructor(props) {
@@ -23,8 +24,10 @@ class ManageSchedule extends Component {
     let scheduleStatus;
     if (event.target.id === 'schedulingOn'){
       scheduleStatus = true;
+      this.props.dispatch({type: 'SCHEDULE_UPDATE', data:{schedulingOn: scheduleStatus, schedulingData: this.props.schedulingData }});
     } else if (event.target.id === 'schedulingOff'){
       scheduleStatus = false;
+      this.props.dispatch({type: 'SCHEDULE_UPDATE', data:{schedulingOn: scheduleStatus, schedulingData: this.props.schedulingData }});
     }
     else {
       return;
@@ -38,7 +41,7 @@ class ManageSchedule extends Component {
     if (!this.state.schedulingOn) {
       return (<div class="w-100 h6 text-muted">Scheduling is not enabled</div>);
     } else if (this.state.schedulingOn) {
-      return <Schedule />;
+      return <Schedule schedulingOn={this.state.schedulingOn} />;
     }
   }
 
@@ -66,4 +69,11 @@ class ManageSchedule extends Component {
   }
 }
 
-export default ManageSchedule;
+const mapStateToProps = state => {
+  return {
+    schedulingOn: state.schedulingOn,
+    schedulingData: state.schedulingData
+  }
+};
+
+export default connect(mapStateToProps)(ManageSchedule);

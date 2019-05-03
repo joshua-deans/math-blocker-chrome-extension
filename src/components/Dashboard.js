@@ -1,18 +1,18 @@
 /* global chrome */
 import React, { Component } from 'react';
 
-class ActiveBlocks extends Component {
+class Dashboard extends Component {
   constructor(props) {
     super(props);
   }
 
   render() {
     return (
-      <div>
-        Active Blocks
+      <div className='py-2 container'>
+        Dashboard
       </div>
     )
   }
 }
 
-export default ActiveBlocks;
+export default Dashboard;
