@@ -1,6 +1,7 @@
 /* global chrome */
 import React, { Component } from 'react';
 import moment from 'moment';
+import blockHelpers from '../helpers/blockHelper';
 
 class ManageSites extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class ManageSites extends Component {
 
   addWebsite(event) {
     event.preventDefault();
-    let newSite = { url: this.state.newSiteInput, validUntil: moment().valueOf() };
+    let newSite = { url: this.state.newSiteInput, unblockedUntil: moment().valueOf() };
     let appendedSiteList = this.state.siteList;
     if (newSite.url.includes(".") && !appendedSiteList.some(site => { return (site.url === newSite.url); })) {
       appendedSiteList.push(newSite);
@@ -42,10 +43,10 @@ class ManageSites extends Component {
           <i className="fas fa-unlock"></i>&nbsp;&nbsp;No block
         </div>)
     }
-    if (moment(site.validUntil).isAfter(moment())) {
+    if (moment(site.unblockedUntil).isAfter(moment())) {
       return (
-        <div className="col-2 badge badge-success site-status hint--bottom-right hint--success text-white" style={{ padding: '6px' }} aria-label={"Temporarily Unblocked until: " + moment(site.validUntil).format("h:mm a")}>
-          <i className="fas fa-unlock"></i>&nbsp;&nbsp;{moment(site.validUntil).toNow(true)}
+        <div className="col-2 badge badge-success site-status hint--bottom-right hint--success text-white" style={{ padding: '6px' }} aria-label={"Temporarily Unblocked until: " + moment(site.unblockedUntil).format("h:mm a")}>
+          <i className="fas fa-unlock"></i>&nbsp;&nbsp;{moment(site.unblockedUntil).toNow(true)}
         </div>)
     } else {
       return (
@@ -63,13 +64,10 @@ class ManageSites extends Component {
     });
   }
 
-  isScheduleBlockOn(){
-    if (this.props.schedulingOn && this.props.schedulingData[moment().weekday()].enabled &&
-            moment().isSameOrAfter(moment(this.props.schedulingData[moment().weekday()].startTime, "h:m A")) &&
-            moment().isBefore(moment(this.props.schedulingData[moment().weekday()].endTime, "h:m A"))){
-              return true;
-            }
-    else {
+  isScheduleBlockOn() {
+    if (blockHelpers.isScheduleBlockCurrentlyActive()) {
+      return true;
+    } else {
       return false;
     }
   }

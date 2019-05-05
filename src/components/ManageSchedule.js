@@ -1,8 +1,8 @@
 /* global chrome */
 import React, { Component } from 'react';
 import Schedule from './Schedule';
-import noUiSlider from 'nouislider';
 import { connect } from 'react-redux';
+import blockHelper from '../helpers/blockHelper';
 
 class ManageSchedule extends Component {
   constructor(props) {
@@ -23,11 +23,14 @@ class ManageSchedule extends Component {
     if (event.target.id === 'schedulingOn'){
       scheduleStatus = true;
       this.props.dispatch({type: 'SCHEDULE_UPDATE', data:{schedulingOn: scheduleStatus, schedulingData: this.props.schedulingData }});
-    } else if (event.target.id === 'schedulingOff'){
+    } else if (event.target.id === 'schedulingOff' && !blockHelper.isScheduleBlockCurrentlyActive()){
       scheduleStatus = false;
       this.props.dispatch({type: 'SCHEDULE_UPDATE', data:{schedulingOn: scheduleStatus, schedulingData: this.props.schedulingData }});
     }
     else {
+      if (event.target.id === 'schedulingOff' && blockHelper.isScheduleBlockCurrentlyActive()){
+        alert("Schedule cannot be turned off while there is an active block");
+      }
       return;
     }
     chrome.storage.sync.set({ schedulingOn: scheduleStatus }, () => {
