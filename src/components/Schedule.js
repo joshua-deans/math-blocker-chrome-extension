@@ -1,8 +1,9 @@
 /* global chrome */
-import React, { Component } from 'react';
 import noUiSlider from 'nouislider';
 import 'nouislider/distribute/nouislider.css';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import blockHelpers from '../helpers/blockHelper';
 
 class Schedule extends Component {
   constructor(props) {
@@ -53,30 +54,29 @@ class Schedule extends Component {
       step: .25,
       format: {
         to: setUpTime,
-        from: function (value) {
-            return value;
-        }
+        from:  (value) => {return value}
     }
     })
     slide.noUiSlider.on('update', (value, handle, unencoded) => {
-      let changedState = this.state.days.slice(0);
-      changedState[index].startTime = value[0];
-      changedState[index].endTime = value[1];
-      changedState[index].startTimeUnencoded = unencoded[0];
-      changedState[index].endTimeUnencoded = unencoded[1];
+      let changedState = this.updateTimes(index, value, unencoded);
       this.setState({ days: changedState });
     })
     slide.noUiSlider.on('change', (value, handle, unencoded) => {
-      let changedState = this.state.days.slice(0);
-      changedState[index].startTime = value[0];
-      changedState[index].endTime = value[1];
-      changedState[index].startTimeUnencoded = unencoded[0];
-      changedState[index].endTimeUnencoded = unencoded[1];
+      let changedState = this.updateTimes(index, value, unencoded);
       chrome.storage.sync.set({ schedulingData: changedState }, () => {
         this.setState({ days: changedState });
         this.props.dispatch({type: 'SCHEDULE_UPDATE', data:{schedulingOn: this.props.schedulingOn, schedulingData: changedState }});
       })
     });
+  }
+
+  updateTimes(index, value, unencoded) {
+    let changedState = this.state.days.slice(0);
+    changedState[index].startTime = value[0];
+    changedState[index].endTime = value[1];
+    changedState[index].startTimeUnencoded = unencoded[0];
+    changedState[index].endTimeUnencoded = unencoded[1];
+    return changedState;
   }
 
   setUpTime(value) {
@@ -104,6 +104,10 @@ class Schedule extends Component {
 
   changeDayEnabled(day, index) {
     let updatedDays = this.state.days;
+    if (updatedDays[index].enabled && blockHelpers.doesDayMatchCurrentBlock(index)){
+      alert(`Schedule for ${day.name} cannot be disabled while there is an active block`);
+      return;
+    }
     updatedDays[index].enabled = !updatedDays[index].enabled;
     chrome.storage.sync.set({ schedulingData: updatedDays }, () => {
       this.setState({days: updatedDays});

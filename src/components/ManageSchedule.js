@@ -29,7 +29,7 @@ class ManageSchedule extends Component {
     }
     else {
       if (event.target.id === 'schedulingOff' && blockHelper.isScheduleBlockCurrentlyActive()){
-        alert("Schedule cannot be turned off while there is an active block");
+        alert("Schedule cannot be disabled while there is an active block");
       }
       return;
     }

@@ -23,7 +23,7 @@ chrome.storage.sync.get(['siteList', 'questionDifficulty', 'numQuestions', 'ques
         if (result.schedulingOn && result.schedulingData[moment().weekday()].enabled &&
             moment().isSameOrAfter(moment(result.schedulingData[moment().weekday()].startTime, "h:m A")) &&
             moment().isBefore(moment(result.schedulingData[moment().weekday()].endTime, "h:m A"))){
-            for (let i = 0; i < result.siteList.length; i++){
+                for (let i = 0; i < result.siteList.length; i++){
                 siteList = result.siteList;
                 if (siteMatches(result.siteList[i].url) && 
                 moment().isAfter(moment(result.siteList[i]["unblockedUntil"]))){

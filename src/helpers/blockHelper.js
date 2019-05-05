@@ -2,6 +2,7 @@ import store from '../store';
 import moment from 'moment';
 
 const helpers = {
+    getStoreState: () => {return store.getState()},
     isScheduledTurnedOn: () => {return store.getState().schedulingOn},
     isScheduleBlockCurrentlyActive: () => {
         let storeState = store.getState();
@@ -10,7 +11,7 @@ const helpers = {
             moment().isBefore(moment(storeState.schedulingData[moment().weekday()].endTime, "h:m A")))
     },
     doesDayMatchCurrentBlock: (day) => {
-        return (day === moment().weekday()) && this.isScheduleBlockCurrentlyActive();
+        return (day === moment().weekday()) && helpers.isScheduleBlockCurrentlyActive();
     }
 }
 
