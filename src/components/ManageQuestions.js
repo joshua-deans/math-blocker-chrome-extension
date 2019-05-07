@@ -1,6 +1,5 @@
 /* global chrome */
 import React, { Component } from 'react';
-import noUiSlider from 'nouislider';
 
 class ManageQuestions extends Component {
   constructor(props) {

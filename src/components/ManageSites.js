@@ -1,13 +1,15 @@
 /* global chrome */
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import moment from 'moment';
 import blockHelpers from '../helpers/blockHelper';
+import SiteBlockModal from './SiteBlockModal';
 
 class ManageSites extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { siteList: [], newSiteInput: '', schedulingOn: false};
+    this.state = { siteList: [], newSiteInput: '', schedulingOn: false, blockModalSite: null};
     this.addWebsite = this.addWebsite.bind(this);
   }
 
@@ -25,7 +27,7 @@ class ManageSites extends Component {
 
   addWebsite(event) {
     event.preventDefault();
-    let newSite = { url: this.state.newSiteInput, unblockedUntil: moment().valueOf() };
+    let newSite = { url: this.state.newSiteInput, tempUnblockedUntil: moment().valueOf(), siteBlockedUntil: moment().valueOf() - 1 };
     let appendedSiteList = this.state.siteList;
     if (newSite.url.includes(".") && !appendedSiteList.some(site => { return (site.url === newSite.url); })) {
       appendedSiteList.push(newSite);
@@ -37,16 +39,16 @@ class ManageSites extends Component {
   };
 
   getStatus(site) {
-    if (!this.isScheduleBlockOn()){
+    if (!blockHelpers.isScheduleBlockCurrentlyActive() && !blockHelpers.isSiteBlockActive(site)){
       return (
         <div className="col-2 badge badge-secondary site-status text-white" style={{ padding: '6px' }}>
           <i className="fas fa-unlock"></i>&nbsp;&nbsp;No block
         </div>)
     }
-    if (moment(site.unblockedUntil).isAfter(moment())) {
+    if (blockHelpers.isSiteTempUnblocked(site)) {
       return (
-        <div className="col-2 badge badge-success site-status hint--bottom-right hint--success text-white" style={{ padding: '6px' }} aria-label={"Temporarily Unblocked until: " + moment(site.unblockedUntil).format("h:mm a")}>
-          <i className="fas fa-unlock"></i>&nbsp;&nbsp;{moment(site.unblockedUntil).toNow(true)}
+        <div className="col-2 badge badge-success site-status hint--bottom-right hint--success text-white" style={{ padding: '6px' }} aria-label={"Temporarily Unblocked until: " + moment(site.tempUnblockedUntil).format("h:mm a")}>
+          <i className="fas fa-unlock"></i>&nbsp;&nbsp;{moment(site.tempUnblockedUntil).toNow(true)}
         </div>)
     } else {
       return (
@@ -56,7 +58,26 @@ class ManageSites extends Component {
     }
   }
 
-  deleteWebsite(deletedSite) {
+  setSiteBlock(event, blockedSite){
+    event.preventDefault();
+    this.setState({blockModalSite: blockedSite});
+  }
+
+  saveSiteBlock(blockedSite){
+    let modifiedSiteList = this.state.siteList;
+    let index = modifiedSiteList.findIndex(site => (site.url === blockedSite.url));
+    modifiedSiteList[index] = blockedSite;
+    chrome.storage.sync.set({ siteList: modifiedSiteList }, () => {
+      this.setState({ siteList: modifiedSiteList});
+    });
+  }
+
+  deleteWebsite(event, deletedSite) {
+    event.preventDefault(); 
+    if (blockHelpers.isScheduleBlockCurrentlyActive()){
+      alert("Cannot delete site until block is finished");
+      return; 
+    }
     let appendedSiteList = this.state.siteList;
     appendedSiteList = appendedSiteList.filter(site => { return (site.url !== deletedSite.url) });
     chrome.storage.sync.set({ siteList: appendedSiteList }, () => {
@@ -64,16 +85,9 @@ class ManageSites extends Component {
     });
   }
 
-  isScheduleBlockOn() {
-    if (blockHelpers.isScheduleBlockCurrentlyActive()) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   render() {
     return (
+      <div>
       <div className='py-2 container' style={{ maxWidth: '700px' }}>
         <div>
           <ul className="list-group px-4 py-2">
@@ -99,7 +113,7 @@ class ManageSites extends Component {
                 </div>
               </div>
             </li>
-            {this.state.siteList.map((site) => {
+            {this.state.siteList.map((site, index) => {
               return (
                 <li className="list-group-item row mx-0">
                   <div className="list-flex">
@@ -111,8 +125,8 @@ class ManageSites extends Component {
                         <span className="fas fa-ellipsis-v"></span>
                       </button>
                       <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                        <button onClick={(event) => { event.preventDefault();}} className="dropdown-item">Block</button>
-                        <button onClick={(event) => { event.preventDefault(); this.deleteWebsite(site); }} className="dropdown-item">Delete</button>
+                        <button data-toggle="modal" data-target="#siteBlockModal" onClick={(event) => { this.setSiteBlock(event, site);}} className="dropdown-item">Block</button>
+                        <button onClick={(event) => { this.deleteWebsite(event, site); }} className="dropdown-item">Delete</button>
                       </div>
                     </div>
                   </div>
@@ -120,6 +134,8 @@ class ManageSites extends Component {
             })}
           </ul>
         </div>
+      </div>
+      <SiteBlockModal blockedSite = {this.state.blockModalSite} saveSiteBlock = {() => this.saveSiteBlock(this.state.blockModalSite, this.state.siteList)} />
       </div>
     )
   }

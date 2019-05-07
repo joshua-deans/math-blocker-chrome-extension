@@ -26,7 +26,7 @@ chrome.storage.sync.get(['siteList', 'questionDifficulty', 'numQuestions', 'ques
                 for (let i = 0; i < result.siteList.length; i++){
                 siteList = result.siteList;
                 if (siteMatches(result.siteList[i].url) && 
-                moment().isAfter(moment(result.siteList[i]["unblockedUntil"]))){
+                moment().isAfter(moment(result.siteList[i]["tempUnblockedUntil"]))){
                     siteObj = result.siteList[i];
                     showQuestionPopup();
                     document.body.classList.add("math-stop-scrolling");
@@ -95,7 +95,7 @@ function questionsFinished() {
     var index = siteList.indexOf(siteObj);
     var newSiteList = siteList.slice(0);
     if (index !== -1) {
-        newSiteList[index]["unblockedUntil"] = moment().add(questionDelay, 'minutes').valueOf();
+        newSiteList[index]["tempUnblockedUntil"] = moment().add(questionDelay, 'minutes').valueOf();
         chrome.storage.sync.set({ siteList: newSiteList }, () => {
             window.location.reload();
         });

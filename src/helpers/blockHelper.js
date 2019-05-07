@@ -12,6 +12,12 @@ const helpers = {
     },
     doesDayMatchCurrentBlock: (day) => {
         return (day === moment().weekday()) && helpers.isScheduleBlockCurrentlyActive();
+    },
+    isSiteTempUnblocked: (site) => {
+        return moment(site.tempUnblockedUntil).isAfter(moment());
+    },
+    isSiteBlockActive: (site) => {
+        return moment(site.siteBlockedUntil).isAfter(moment());
     }
 }
 
