@@ -51,8 +51,12 @@ class ManageSites extends Component {
           <i className="fas fa-unlock"></i>&nbsp;&nbsp;{moment(site.tempUnblockedUntil).toNow(true)}
         </div>)
     } else {
+      let scheduleEndTime = moment(this.props.schedulingData[moment().weekday()].endTime, "h:m A");
+      let blockEndTime = moment(site.siteBlockedUntil);
       return (
-        <div className="col-2 badge badge-danger site-status hint--bottom-right hint--error text-white" style={{ padding: '6px' }} aria-label="Blocked">
+        <div className="col-2 badge badge-danger site-status hint--bottom-right hint--error text-white" style={{ padding: '6px' }} 
+        aria-label={"Blocked until: " + moment.max(scheduleEndTime, blockEndTime).format("h:mm a")}
+        >
           <i className="fas fa-lock"></i>&nbsp;&nbsp;Blocked
       </div>)
     }

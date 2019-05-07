@@ -20,20 +20,17 @@ chrome.storage.sync.get(['siteList', 'questionDifficulty', 'numQuestions', 'ques
         if (result.questionDelay){
             questionDelay = parseInt(result.questionDelay, 10);
         }
-        if (result.schedulingOn && result.schedulingData[moment().weekday()].enabled &&
-            moment().isSameOrAfter(moment(result.schedulingData[moment().weekday()].startTime, "h:m A")) &&
-            moment().isBefore(moment(result.schedulingData[moment().weekday()].endTime, "h:m A"))){
-                for (let i = 0; i < result.siteList.length; i++){
-                siteList = result.siteList;
-                if (siteMatches(result.siteList[i].url) && 
-                moment().isAfter(moment(result.siteList[i]["tempUnblockedUntil"]))){
+        for (let i = 0; i < result.siteList.length; i++){
+            siteList = result.siteList;
+            if (siteMatches(result.siteList[i].url) && 
+                moment().isAfter(moment(result.siteList[i]["tempUnblockedUntil"])) && 
+                (isSchedulingOn(result) || isSiteBlocked(result.siteList[i]))){
                     siteObj = result.siteList[i];
                     showQuestionPopup();
                     document.body.classList.add("math-stop-scrolling");
                     break;
                 }
             };
-        }
     }
 });
 
@@ -54,6 +51,16 @@ function showQuestionPopup(){
     .catch(err => {
         console.log(err);
     });
+}
+
+function isSchedulingOn(result){
+    return result.schedulingOn && result.schedulingData[moment().weekday()].enabled &&
+    moment().isSameOrAfter(moment(result.schedulingData[moment().weekday()].startTime, "h:m A")) &&
+    moment().isBefore(moment(result.schedulingData[moment().weekday()].endTime, "h:m A"));
+}
+
+function isSiteBlocked(site){
+    return moment().isBefore(moment(site.siteBlockedUntil));
 }
 
 function startMathQuestions(){

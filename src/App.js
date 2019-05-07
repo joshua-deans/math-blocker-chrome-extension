@@ -41,9 +41,9 @@ class App extends Component {
     } else if (currentView === "manageSchedule"){
       content = <ManageSchedule schedulingOn={this.props.schedulingOn} schedulingData={this.props.schedulingData} />
     }
-    // else if (currentView === "dashboard"){
-    //   content = <Dashboard />
-    // } 
+    else if (currentView === "dashboard"){
+      content = <Dashboard />
+    } 
     return (
       <div className="App">
         { this.setUpNavBar() }
