@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Math Blocker",
   "description": "Block distracting websites by answering tough math questions",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "browser_action": {
     "default_title": "Math Blocker Settings"
   },

@@ -1,6 +1,5 @@
 /* global chrome */
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import moment from 'moment';
 import blockHelpers from '../helpers/blockHelper';
 import SiteBlockModal from './SiteBlockModal';
@@ -78,7 +77,7 @@ class ManageSites extends Component {
 
   deleteWebsite(event, deletedSite) {
     event.preventDefault(); 
-    if (blockHelpers.isScheduleBlockCurrentlyActive()){
+    if (blockHelpers.isSiteBlockActive(deletedSite) || blockHelpers.isScheduleBlockCurrentlyActive()){
       alert("Cannot delete site until block is finished");
       return; 
     }
@@ -106,17 +105,6 @@ class ManageSites extends Component {
             </li>
           </ul>
           <ul className="list-group px-4 py-2">
-            <li className="list-group-item row mx-0">
-              <div className="dropdown col pr-0">
-                <button type="button" className="float-right btn btn-sm btn-link text-body"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span className="fas fa-ellipsis-v"></span>
-                </button>
-                <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                  <button onClick={(event) => { event.preventDefault(); }} className="dropdown-item" href="#">Block All</button>
-                </div>
-              </div>
-            </li>
             {this.state.siteList.map((site, index) => {
               return (
                 <li className="list-group-item row mx-0">

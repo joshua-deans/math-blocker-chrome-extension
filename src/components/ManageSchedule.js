@@ -49,7 +49,7 @@ class ManageSchedule extends Component {
   render() {
     return (
       <form className='my-4 p-2 container card' style={{ maxWidth: '775px' }} onSubmit={event => event.preventDefault()}>
-        <div className="row p-2 mb-1 w-100 mx-auto">
+        <div className="row p-2 mb-0 w-100 mx-auto">
           <label for="scheduleStatus" className="col-6 col-form-label text-right">Schedule Type</label>
           <div class="col-4 py-2 text-left">
             <div class="form-check form-check-inline">

@@ -1,4 +1,3 @@
-/* global chrome */
 import React, { Component } from 'react';
 import moment from 'moment';
 import blockHelpers from '../helpers/blockHelper';
@@ -20,8 +19,11 @@ class SiteBlockModal extends Component {
     if (timeSet.isBefore(moment())){
       timeSet.add(1, 'd');
     }
+    let blockedSite = this.props.blockedSite;
+    if (timeSet.isBefore(blockedSite.siteBlockedUntil)){
+      return;
+    }
     if (window.confirm(`Would you like to block ${this.props.blockedSite.url} for ${moment().to(timeSet, true)}?`)){
-      let blockedSite = this.props.blockedSite;
       blockedSite.siteBlockedUntil = timeSet.valueOf();
       this.props.saveSiteBlock();
       document.querySelector('#site-block-close').click();
@@ -47,7 +49,7 @@ class SiteBlockModal extends Component {
                 <div>
                   {
                     (blockHelpers.isSiteBlockActive(this.props.blockedSite) ?
-                    <p className="h6 pb-3">Block Active Until {this.props.blockedSite.siteBlockedUntil} </p> : 
+                    <p className="h6 pb-3">Block Active Until: {moment(this.props.blockedSite.siteBlockedUntil).format("h:mm a")} </p> : 
                     <p className="h6 pb-3">No block active</p> )
                   }
                 </div> : null
