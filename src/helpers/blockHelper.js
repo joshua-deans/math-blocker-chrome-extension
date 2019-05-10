@@ -10,6 +10,10 @@ const helpers = {
             moment().isSameOrAfter(moment(storeState.schedulingData[moment().weekday()].startTime, "h:m A")) &&
             moment().isBefore(moment(storeState.schedulingData[moment().weekday()].endTime, "h:m A")))
     },
+    getTodaysBlockData: () => {
+        let storeState = store.getState();
+        return storeState.schedulingData[moment().weekday()];
+    },
     doesDayMatchCurrentBlock: (day) => {
         return (day === moment().weekday()) && helpers.isScheduleBlockCurrentlyActive();
     },

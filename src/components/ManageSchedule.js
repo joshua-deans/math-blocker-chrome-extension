@@ -22,10 +22,10 @@ class ManageSchedule extends Component {
     let scheduleStatus;
     if (event.target.id === 'schedulingOn'){
       scheduleStatus = true;
-      this.props.dispatch({type: 'SCHEDULE_UPDATE', data:{schedulingOn: scheduleStatus, schedulingData: this.props.schedulingData }});
+      this.props.dispatch({type: 'SCHEDULE_UPDATE', data:{schedulingOn: scheduleStatus}});
     } else if (event.target.id === 'schedulingOff' && !blockHelper.isScheduleBlockCurrentlyActive()){
       scheduleStatus = false;
-      this.props.dispatch({type: 'SCHEDULE_UPDATE', data:{schedulingOn: scheduleStatus, schedulingData: this.props.schedulingData }});
+      this.props.dispatch({type: 'SCHEDULE_UPDATE', data:{schedulingOn: scheduleStatus}});
     }
     else {
       if (event.target.id === 'schedulingOff' && blockHelper.isScheduleBlockCurrentlyActive()){

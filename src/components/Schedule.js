@@ -65,7 +65,7 @@ class Schedule extends Component {
       let changedState = this.updateTimes(index, value, unencoded);
       chrome.storage.sync.set({ schedulingData: changedState }, () => {
         this.setState({ days: changedState });
-        this.props.dispatch({type: 'SCHEDULE_UPDATE', data:{schedulingOn: this.props.schedulingOn, schedulingData: changedState }});
+        this.props.dispatch({type: 'SCHEDULE_UPDATE', data:{schedulingData: changedState }});
       })
     });
   }
@@ -111,7 +111,7 @@ class Schedule extends Component {
     updatedDays[index].enabled = !updatedDays[index].enabled;
     chrome.storage.sync.set({ schedulingData: updatedDays }, () => {
       this.setState({days: updatedDays});
-      this.props.dispatch({type: 'SCHEDULE_UPDATE', data:{schedulingOn: this.props.schedulingOn, schedulingData: updatedDays }});
+      this.props.dispatch({type: 'SCHEDULE_UPDATE', data:{ schedulingData: updatedDays }});
     })
   }
 

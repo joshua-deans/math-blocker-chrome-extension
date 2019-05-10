@@ -2,25 +2,19 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import blockHelpers from '../helpers/blockHelper';
+import { connect } from 'react-redux';
 import SiteBlockModal from './SiteBlockModal';
 
 class ManageSites extends Component {
   constructor(props) {
     super(props);
+    let propsSiteList = [];
+    if (this.props.siteList != null){
+      propsSiteList = this.props.siteList;
+    }
 
-    this.state = { siteList: [], newSiteInput: '', schedulingOn: false, blockModalSite: null};
+    this.state = { siteList: propsSiteList, newSiteInput: '', blockModalSite: null};
     this.addWebsite = this.addWebsite.bind(this);
-  }
-
-  componentWillMount() {
-    chrome.storage.sync.get(['siteList'], (result) => {
-      if (result.siteList) {
-        this.setState({ siteList: result.siteList });
-      }
-      if (result.schedulingOn) {
-        this.setState({schedulingOn: result.schedulingOn});
-      }
-    })
   }
 
 
@@ -32,6 +26,7 @@ class ManageSites extends Component {
       appendedSiteList.push(newSite);
       chrome.storage.sync.set({ siteList: appendedSiteList }, () => {
         this.setState({ siteList: appendedSiteList, newSiteInput: '' });
+        this.props.dispatch({type: 'SITE_LIST_UPDATE', data: {siteList: appendedSiteList}});
         document.querySelector('#newSiteInput').value = "";
       });
     }
@@ -72,6 +67,7 @@ class ManageSites extends Component {
     modifiedSiteList[index] = blockedSite;
     chrome.storage.sync.set({ siteList: modifiedSiteList }, () => {
       this.setState({ siteList: modifiedSiteList});
+      this.props.dispatch({type: 'SITE_LIST_UPDATE', data: {siteList: modifiedSiteList}});
     });
   }
 
@@ -85,6 +81,7 @@ class ManageSites extends Component {
     appendedSiteList = appendedSiteList.filter(site => { return (site.url !== deletedSite.url) });
     chrome.storage.sync.set({ siteList: appendedSiteList }, () => {
       this.setState({ siteList: appendedSiteList });
+      this.props.dispatch({type: 'SITE_LIST_UPDATE', data: {siteList: appendedSiteList}});
     });
   }
 
@@ -133,4 +130,4 @@ class ManageSites extends Component {
   }
 }
 
-export default ManageSites;
+export default connect()(ManageSites);
