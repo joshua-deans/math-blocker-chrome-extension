@@ -5,6 +5,7 @@ import './App.css';
 import ManageQuestions from './components/ManageQuestions';
 import ManageSchedule from './components/ManageSchedule';
 import Dashboard from './components/Dashboard';
+import Footer from './components/Footer';
 import { connect } from 'react-redux';
 
 class App extends Component {  
@@ -72,6 +73,11 @@ class App extends Component {
           </li>
           <li className="nav-item">
             <button className="btn btn-link nav-link" value='manageSchedule' id='manageSchedule' onClick={this.handleViewChange}>Manage Schedule</button>
+          </li>
+        </ul>
+        <ul className="navbar-nav ml-auto">
+          <li className="nav-item">
+            <a className="btn btn-link nav-link" target="_blank" href="https://www.paypal.me/joshuadeans"><i class="fab fa-paypal" /> Donate</a>
           </li>
         </ul>
       </div>

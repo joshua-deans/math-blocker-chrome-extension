@@ -1,5 +1,6 @@
 /* global chrome */
 import React, { Component } from 'react';
+import blockHelpers from '../helpers/blockHelper';
 
 class ManageQuestions extends Component {
   constructor(props) {
@@ -40,6 +41,14 @@ class ManageQuestions extends Component {
   updateNumQuestions(event) {
     let newVal = event.target.value;
     if (!isNaN(newVal) && newVal >= 1 && newVal <= 10) {
+      if (blockHelpers.isAnyBlockActive() && newVal < this.state.numQuestions){
+        alert("Cannot decrease question difficulty while any block is active!");
+        return;
+      } else if (blockHelpers.isAnyBlockActive() && newVal > this.state.numQuestions){
+        if (!window.confirm("Are you sure you want to add more questions during a block? You cannot go back until the block is finished.")){
+          return;
+        }
+      }
       chrome.storage.sync.set({ numQuestions: newVal }, () => {
         this.setState({ numQuestions: newVal });
       })
@@ -49,6 +58,14 @@ class ManageQuestions extends Component {
   updateQuestionDifficulty(event) {
     let newVal = event.target.value;
     if (!isNaN(newVal) && newVal >= 1 && newVal <= 5) {
+      if (blockHelpers.isAnyBlockActive() && newVal < this.state.questionDifficulty){
+        alert("Cannot decrease question difficulty while any block is active!");
+        return;
+      } else if (blockHelpers.isAnyBlockActive() && newVal > this.state.questionDifficulty){
+        if (!window.confirm("Are you sure you want to increase question difficulty during a block? You cannot go back until the block is finished")){
+          return;
+        }
+      }
       chrome.storage.sync.set({ questionDifficulty: newVal }, () => {
         this.setState({ questionDifficulty: newVal })
       })
@@ -57,6 +74,14 @@ class ManageQuestions extends Component {
 
   updateQuestionDelay(event) {
     let delayValue = document.querySelector('#questionDelay').value;
+    if (blockHelpers.isAnyBlockActive() && parseInt(delayValue) < parseInt(this.state.questionDifficulty)){
+      alert("Cannot decrease question delay while any block is active!");
+      return;
+    } else if (blockHelpers.isAnyBlockActive() && parseInt(delayValue) > parseInt(this.state.questionDifficulty)){
+      if (!window.confirm("Are you sure you want to increase question delay during a block? You cannot go back until the block is finished")){
+        return;
+      }
+    }
     chrome.storage.sync.set({ questionDelay: delayValue }, () => {
       this.setState({ questionDelay: delayValue })
     })

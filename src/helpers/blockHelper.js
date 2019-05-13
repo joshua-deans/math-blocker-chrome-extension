@@ -22,6 +22,12 @@ const helpers = {
     },
     isSiteBlockActive: (site) => {
         return moment(site.siteBlockedUntil).isAfter(moment());
+    },
+    isAnySiteBlockActive: () => {
+        return store.getState().siteList.some(site => helpers.isSiteBlockActive(site));
+    },
+    isAnyBlockActive: () => {
+        return helpers.isAnySiteBlockActive() || helpers.isScheduleBlockCurrentlyActive();
     }
 }
 

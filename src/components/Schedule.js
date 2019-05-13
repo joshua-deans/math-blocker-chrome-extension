@@ -121,7 +121,7 @@ class Schedule extends Component {
         <div className="container list-group-flush text-left px-3">
           {this.state.days.map((day, index) => {
             return (
-              <div className="row list-group-item d-flex align-items-center pl-3 pr-0 mx-2 py-4 my-0">
+              <div className="row list-group-item d-flex align-items-center pl-3 pr-0 mx-2 py-3 my-0">
                 <div className="form-group col-md-3 my-auto text-md-left text-center">
                   <input className="form-check-input" type="checkbox" value="" id={day.name.toLowerCase() + "Check"}
                     checked={day.enabled} onChange={(event) => this.changeDayEnabled(day, index)}

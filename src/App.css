@@ -29,6 +29,12 @@
 #bodyContent {
   flex-grow: 1;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+#footer {
+  flex-grow: 0;
 }
 
 #mainNav {
