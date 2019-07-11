@@ -89,18 +89,23 @@ class ManageSites extends Component {
     return (
       <div>
       <div className='py-2 container' style={{ maxWidth: '700px' }}>
-        <div>
-          <ul className="list-group px-4 py-2">
-            <li className="list-group-item py-1">
-              <form onSubmit={this.addWebsite}>
-                <div className="form-group mb-0">
-                  <input type="text" className="form-control border-0 text-center" id="newSiteInput"
-                    placeholder="Add site (e.g. facebook.com)"
-                    onChange={(e) => this.setState({ newSiteInput: e.target.value })} required />
-                </div>
-              </form>
-            </li>
-          </ul>
+          <div>
+            <ul className="list-group px-4 py-2">
+              <li className="list-group-item p-0">
+                <form onSubmit={this.addWebsite}>
+                  <div className="input-group mb-0">
+                    <input type="text" className="form-control border-0 text-center" id="newSiteInput"
+                      placeholder="Add site (e.g. facebook.com)"
+                      onChange={(e) => this.setState({ newSiteInput: e.target.value })} required />
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </li>
+            </ul>
           <ul className="list-group px-4 py-2">
             {this.state.siteList.map((site, index) => {
               return (

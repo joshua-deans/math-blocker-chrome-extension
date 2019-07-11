@@ -19,7 +19,6 @@ class Dashboard extends Component {
   }
 
   render() {
-    console.log(this.props);
     let scheduleBlockActive = blockHelpers.isScheduleBlockCurrentlyActive();
     let blockedSiteList = this.props.siteList.filter(site => blockHelpers.isSiteBlockActive(site));
     let siteBlockActive = blockedSiteList.length > 0;

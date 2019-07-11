@@ -13,7 +13,7 @@ const blockInfo = {
 };
 
 const reducer = (state = blockInfo, action) => {
-    switch (action.type) {
+  switch (action.type) {
       case 'SCHEDULE_UPDATE':
         return Object.assign({}, state, action.data);    
       case 'SITE_LIST_UPDATE':

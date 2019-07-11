@@ -18,11 +18,12 @@ class App extends Component {
 
   componentWillMount(){
     chrome.storage.sync.get(['schedulingOn', 'schedulingData', 'siteList'], (result) => {
-      if (result.schedulingOn !== undefined && result.schedulingData !== undefined && result.siteList !== undefined) {
-        this.props.dispatch(
-          {type: 'SCHEDULE_UPDATE', data: {schedulingOn: result.schedulingOn, schedulingData: result.schedulingData, siteList: result.siteList} 
-        });
-      }
+      let schedulingOnTemp = (result.schedulingOn !== undefined) ? result.schedulingOn : this.props.schedulingOn;
+      let schedulingDataTemp = (result.schedulingData !== undefined) ? result.schedulingData : this.props.schedulingData;
+      let siteListTemp = (result.siteList !== undefined) ? result.siteList : this.props.siteList;
+      this.props.dispatch(
+        {type: 'SCHEDULE_UPDATE', data: {schedulingOn: schedulingOnTemp, schedulingData: schedulingDataTemp, siteList: siteListTemp} 
+      });
     })
   }
 

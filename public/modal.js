@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const currentUrl = window.location.hostname;
+const currentUrl = window.location.href;
 let numQuestions = 1;
 let currQuestion = 1;
 let questionDifficulty = 1;
@@ -35,10 +35,21 @@ chrome.storage.sync.get(['siteList', 'questionDifficulty', 'numQuestions', 'ques
 });
 
 function siteMatches(site){
-    let siteArr = site.split(".");
-    let currentUrlArr = currentUrl.split(".");
-    return (siteArr[siteArr.length - 1] === currentUrlArr[currentUrlArr.length - 1]) &&
-    (siteArr[siteArr.length - 2] === currentUrlArr[currentUrlArr.length - 2]);
+    let siteArr = site.split(/[./]/).reverse().filter(s => s.length !== 0);
+    let currentUrlArr = currentUrl.split(/[./]/).reverse().filter(s => s.length !== 0);
+    var i = 0; // siteArr
+    var j = 0; // currentUrlArr;
+    while (j < currentUrlArr.length && i < siteArr.length){
+        if (siteArr[i] === currentUrlArr[j]){
+            i++;
+        }
+        j++;
+    }
+    if (i >= siteArr.length){
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function showQuestionPopup(){
